@@ -1,60 +1,39 @@
-// --- SISTEMA DE ALTERNÂNCIA DE TEMA (CLARO / ESCURO) ---
-document.addEventListener('DOMContentLoaded', () => {
-    const themeBtn = document.getElementById('theme-toggle');
-    
-    // 1. Verifica se o utilizador já tinha uma preferência salva, caso contrário usa 'dark' como padrão
-    const savedTheme = localStorage.getItem('theme') || 'dark';
+let slideIndex = 1;
+let slideTimeout;
 
-    // 2. Aplica o tema inicial na tag <html>
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    updateThemeButton(themeBtn, savedTheme);
-
-    // 3. Escutador de clique para alternar o tema
-    if (themeBtn) {
-        themeBtn.addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            // Se está dark, muda para light. Se está light, muda para dark.
-            const targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
-            // Aplica no HTML e salva no navegador (localStorage)
-            document.documentElement.setAttribute('data-theme', targetTheme);
-            localStorage.setItem('theme', targetTheme);
-            
-            // Atualiza o texto/emoji do botão
-            updateThemeButton(themeBtn, targetTheme);
-        });
-    }
+// Aguarda o HTML carregar completamente antes de iniciar o carrossel
+document.addEventListener("DOMContentLoaded", () => {
+    showSlides(slideIndex);
 });
 
-// Função auxiliar para mudar o visual do botão
-function updateThemeButton(button, theme) {
-    if (!button) return;
-    if (theme === 'dark') {
-        button.textContent = '☀️ Modo Claro';
-    } else {
-        button.textContent = '🌙 Modo Escuro';
-    }
+// Função ligada aos botões de setas (onclick="changeSlide(-1)" e "changeSlide(1)")
+function changeSlide(n) {
+    // Interrompe o temporizador automático atual para não atropelar o clique manual
+    clearTimeout(slideTimeout); 
+    showSlides(slideIndex += n);
 }
 
-
-// --- MENU HAMBÚRGUER RESPONSIVO (MOBILE) ---
-document.addEventListener('DOMContentLoaded', () => {
-    const menuToggle = document.querySelector('.menu-toggle');
-    const navLinks = document.querySelector('.nav-links');
-
-    if (menuToggle && navLinks) {
-        menuToggle.addEventListener('click', () => {
-            const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
-            menuToggle.setAttribute('aria-expanded', !isExpanded);
-            navLinks.classList.toggle('active');
-        });
-
-        // Fecha o menu móvel automaticamente ao clicar em qualquer link
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-                menuToggle.setAttribute('aria-expanded', 'false');
-            });
-        });
+function showSlides(n) {
+    const slides = document.getElementsByClassName("slide");
+    
+    // Se passar do último slide, volta para o primeiro
+    if (n > slides.length) { slideIndex = 1; }
+    // Se for menor que o primeiro, vai para o último
+    if (n < 1) { slideIndex = slides.length; }
+    
+    // Esconde todos os slides da tela
+    for (let i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
     }
-});
+    
+    // Exibe apenas o slide atual se ele existir
+    if (slides[slideIndex - 1]) {
+        slides[slideIndex - 1].style.display = "block";
+    }
+    
+    // Configura o loop contínuo automático para mudar a cada 5 segundos (5000ms)
+    slideTimeout = setTimeout(() => {
+        slideIndex++;
+        showSlides(slideIndex);
+    }, 5000);
+}
