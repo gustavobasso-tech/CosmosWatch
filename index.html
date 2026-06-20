@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmos Watch – Exploração e Ciência Espacial</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="#inicio">Cosmos Watch</a>
+            </div>
+            
+            <button class="menu-toggle" aria-label="Abrir menu de navegação" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav class="nav-links">
+                <a href="#inicio">Início</a>
+                <a href="#explorar">Explorar</a>
+                <a href="#quiz">Quiz</a>
+                <a href="#curiosidade">Enviar Curiosidade</a>
+                <button id="theme-toggle" class="theme-btn" aria-label="Alternar tema visual">☀️ Modo Claro</button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="inicio" class="hero-section">
+            <h1>Exploração e Ciência Espacial</h1>
+            <p class="subtitle">Descubra os segredos do universo, monitorize eventos espaciais e teste os seus conhecimentos cósmicos.</p>
+            
+            <div class="slideshow-container">
+    <div class="slide fade">
+        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200" alt="Vista do espaço profundo com galáxias e poeira cósmica azul e roxa">
+        <div class="slide-caption">Explore as profundezas das nebulosas e sistemas estelares distantes.</div>
+    </div>
+    
+    <div class="slide fade">
+        <img src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=1200" alt="Satélite orbital capturando a curvatura do planeta Terra">
+        <div class="slide-caption">Grandes missões que marcaram a jornada da humanidade na órbita terrestre.</div>
+    </div>
+    
+    <div class="slide fade">
+        <img src="https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?w=1200" alt="Galáxia espiral brilhante no vácuo do espaço">
+        <div class="slide-caption">A Via Láctea e as galáxias vizinhas numa eterna dança cósmica.</div>
+    </div>
+    
+    <button class="prev" onclick="changeSlide(-1)" aria-label="Slide anterior">&#10094;</button>
+    <button class="next" onclick="changeSlide(1)" aria-label="Próximo slide">&#10095;</button>
+</div>
+        </section>
+
+        <section id="explorar" class="content-section">
+            <h2>Educação Astronómica & Inovação</h2>
+            <div class="grid-info">
+                <div class="info-card">
+                    <h3>🌌 Divulgação Científica</h3>
+                    <p>O Cosmos Watch visa democratizar o acesso ao conhecimento astronómico, trazendo dados complexos de forma visual e interativa.</p>
+                </div>
+                <div class="info-card">
+                    <h3>🚀 Monitoramento Espacial</h3>
+                    <p>Acompanhe visualmente as temáticas que movem a exploração moderna, desde exoplanetas até trajetórias de satélites e missões robóticas.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="quiz" class="quiz-section">
+            <h2>Quiz Interativo: Você conhece o universo?</h2>
+            <p>Teste as suas habilidades e conhecimentos sobre o Sistema Solar, missões históricas e física celeste.</p>
+            
+            <form id="quiz-form">
+                <div id="quiz-container">
+                    </div>
+                <button type="button" id="submit-quiz" class="btn-submit">Enviar Respostas</button>
+            </form>
+
+            <div id="quiz-result" class="quiz-result-box"></div>
+        </section>
+
+        <section id="curiosidade" class="form-section">
+            <h2>Enviar Curiosidade ou Dúvida</h2>
+            <p>Descobriu algo incrível ou tem uma dúvida sobre astrofísica? Escreva para a nossa equipa!</p>
+            
+            <form id="contact-form" novalidate>
+                <div class="form-group">
+                    <label for="nome">Nome Completo *</label>
+                    <input type="text" id="nome" name="nome" placeholder="Ex: Neil Armstrong">
+                    <span class="error-message" id="error-nome"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">E-mail de Contato *</label>
+                    <input type="email" id="email" name="email" placeholder="seu.email@dominio.com">
+                    <span class="error-message" id="error-email"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="tipo">Tipo de Mensagem</label>
+                    <select id="tipo" name="tipo">
+                        <option value="duvida">Dúvida Teórica</option>
+                        <option value="curiosidade">Curiosidade Fantástica</option>
+                        <option value="sugestao">Sugestão de Conteúdo</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="descricao">Descrição da Mensagem *</label>
+                    <textarea id="descricao" name="descricao" rows="5" placeholder="Escreva detalhadamente a sua pergunta cósmica..."></textarea>
+                    <span class="error-message" id="error-descricao"></span>
+                </div>
+
+                <button type="submit" class="btn-submit">Enviar para o Cosmos</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Cosmos Watch - Divulgação Científica.</p>
+    </footer>
+
+<script>
+// --- SISTEMA DE ALTERNÂNCIA DE TEMA (CLARO / ESCURO) ---
+document.addEventListener('DOMContentLoaded', () => {
+    const themeBtn = document.getElementById('theme-toggle');
+    
+    // 1. Verifica se o utilizador já tinha uma preferência salva, caso contrário usa 'dark' como padrão
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+
+    // 2. Aplica o tema inicial na tag <html>
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    updateThemeButton(themeBtn, savedTheme);
+
+    // 3. Escutador de clique para alternar o tema
+    if (themeBtn) {
+        themeBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            // Se está dark, muda para light. Se está light, muda para dark.
+            const targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            // Aplica no HTML e salva no navegador (localStorage)
+            document.documentElement.setAttribute('data-theme', targetTheme);
+            localStorage.setItem('theme', targetTheme);
+            
+            // Atualiza o texto/emoji do botão
+            updateThemeButton(themeBtn, targetTheme);
+        });
+    }
+});
+
+// Função auxiliar para mudar o visual do botão
+function updateThemeButton(button, theme) {
+    if (!button) return;
+    if (theme === 'dark') {
+        button.textContent = '☀️ Modo Claro';
+    } else {
+        button.textContent = '🌙 Modo Escuro';
+    }
+}
+
+
+// --- MENU HAMBÚRGUER RESPONSIVO (MOBILE) ---
+document.addEventListener('DOMContentLoaded', () => {
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+
+    if (menuToggle && navLinks) {
+        menuToggle.addEventListener('click', () => {
+            const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+            menuToggle.setAttribute('aria-expanded', !isExpanded);
+            navLinks.classList.toggle('active');
+        });
+
+        // Fecha o menu móvel automaticamente ao clicar em qualquer link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                menuToggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+    }
+});
+</script>
+    <script>
+let slideIndex = 1;
+let slideTimeout;
+
+// Aguarda o HTML carregar completamente antes de iniciar o carrossel
+document.addEventListener("DOMContentLoaded", () => {
+    showSlides(slideIndex);
+});
+
+// Função ligada aos botões de setas (onclick="changeSlide(-1)" e "changeSlide(1)")
+function changeSlide(n) {
+    // Interrompe o temporizador automático atual para não atropelar o clique manual
+    clearTimeout(slideTimeout); 
+    showSlides(slideIndex += n);
+}
+
+function showSlides(n) {
+    const slides = document.getElementsByClassName("slide");
+    
+    // Se passar do último slide, volta para o primeiro
+    if (n > slides.length) { slideIndex = 1; }
+    // Se for menor que o primeiro, vai para o último
+    if (n < 1) { slideIndex = slides.length; }
+    
+    // Esconde todos os slides da tela
+    for (let i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+    }
+    
+    // Exibe apenas o slide atual se ele existir
+    if (slides[slideIndex - 1]) {
+        slides[slideIndex - 1].style.display = "block";
+    }
+    
+    // Configura o loop contínuo automático para mudar a cada 5 segundos (5000ms)
+    slideTimeout = setTimeout(() => {
+        slideIndex++;
+        showSlides(slideIndex);
+    }, 5000);
+}
+</script>
+    <script src="js/form.js"></script>
+    
+    <script>
+        const quizQuestions = [
+    { q: "Qual é o maior planeta do Sistema Solar?", a: ["Saturno", "Júpiter", "Urano", "Netuno"], correct: 1 },
+    { q: "Em que ano o homem pisou na Lua pela primeira vez através da missão Apollo 11?", a: ["1965", "1969", "1972", "1961"], correct: 1 },
+    { q: "Qual é a galáxia espiral mais próxima da nossa Via Láctea?", a: ["Andrômeda", "Nuvem de Magalhães", "Galáxia do Sombreiro", "Triângulo"], correct: 0 },
+    { q: "O que define fundamentalmente um ano-luz?", a: ["O tempo de rotação solar", "A velocidade máxima de um cometa", "Uma unidade métrica de distância", "O brilho de uma supernova"], correct: 2 },
+    { q: "Qual planeta do Sistema Solar é conhecido popularmente como o 'Planeta Vermelho'?", a: ["Vênus", "Marte", "Mercúrio", "Saturno"], correct: 1 },
+    { q: "Qual super telescópio espacial sucedeu o Hubble no final de 2021?", a: ["Kepler Space Telescope", "James Webb Space Telescope", "Chandra X-ray", "Voyager Probes"], correct: 1 },
+    { q: "Qual é o elemento químico mais abundante na composição do Sol?", a: ["Oxigênio", "Hélio", "Carbono", "Hidrogênio"], correct: 3 },
+    { q: "O que causa diretamente a ocorrência de um Eclipse Solar?", a: ["A Terra se posicionar entre o Sol e a Lua", "A Lua se posicionar entre o Sol e a Terra", "O Sol se alinhar entre a Terra e a Lua", "A passagem de asteroides massivos"], correct: 1 },
+    { q: "Qual sonda fabricada por humanos foi a primeira a cruzar a Fronteira Interestelar?", a: ["Voyager 1", "New Horizons", "Pioneer 10", "Cassini-Huygens"], correct: 0 },
+    { q: "Qual a distância média estimada entre o planeta Terra e o Sol?", a: ["50 milhões de quilômetros", "150 milhões de quilômetros", "1 bilhão de quilômetros", "300 mil quilômetros"], correct: 1 }
+];
+
+function generateQuizHTML(quizWrapper) {
+    if (!quizWrapper) return;
+    
+    quizWrapper.innerHTML = quizQuestions.map((item, index) => `
+        <div class="quiz-question">
+            <h3>${index + 1}. ${item.q}</h3>
+            ${item.a.map((option, i) => `
+                <label>
+                    <input type="radio" name="question${index}" value="${i}">
+                    ${option}
+                </label>
+            `).join('')}
+        </div>
+    `).join('');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const quizWrapper = document.getElementById('quiz-container');
+    const submitQuizBtn = document.getElementById('submit-quiz');
+    const resultDisplay = document.getElementById('quiz-result');
+
+    generateQuizHTML(quizWrapper);
+
+    if (submitQuizBtn) {
+        submitQuizBtn.addEventListener('click', () => {
+            let totalQuestions = quizQuestions.length;
+            let totalCorrect = 0;
+            let questionsAnswered = 0;
+
+            quizQuestions.forEach((item, index) => {
+                const selectedRadio = document.querySelector(`input[name="question${index}"]:checked`);
+                if (selectedRadio) {
+                    questionsAnswered++;
+                    if (parseInt(selectedRadio.value) === item.correct) {
+                        totalCorrect++;
+                    }
+                }
+            });
+
+            // Impede o envio se houver perguntas sem resposta
+            if (questionsAnswered < totalQuestions) {
+                resultDisplay.style.color = "var(--error-color)";
+                resultDisplay.innerHTML = "⚠️ Operação cancelada. Responda a todas as 10 perguntas antes de submeter!";
+                return;
+            }
+
+            // Cálculo dos erros
+            let totalErrors = totalQuestions - totalCorrect;
+
+            // Definição do feedback textual e cor com base no desempenho
+            let systemFeedback = "";
+            if (totalCorrect === 10) {
+                resultDisplay.style.color = "var(--success-color)";
+                systemFeedback = "🚀 Fantástico! Obteve pontuação máxima. É um autêntico astrofísico!";
+            } else if (totalCorrect >= 7) {
+                resultDisplay.style.color = "var(--success-color)";
+                systemFeedback = "✨ Muito bom! Os seus conhecimentos sobre o cosmos estão afiados.";
+            } else if (totalCorrect >= 5) {
+                resultDisplay.style.color = "var(--text-color)";
+                systemFeedback = "👨‍🚀 Bom esforço! Mas ainda há muito espaço para explorar.";
+            } else {
+                resultDisplay.style.color = "var(--error-color)";
+                systemFeedback = "🛰️ Órbita baixa! Que tal dar uma leitura na nossa aba Explorar e tentar de novo?";
+            }
+
+            // Exibição detalhada com acertos e erros no HTML
+            resultDisplay.innerHTML = `
+                <div style="border-top: 2px dashed var(--input-border); margin-top: 1rem; padding-top: 1rem;">
+                    <h3>Resultado Final:</h3>
+                    <p style="font-size: 1.3rem; margin: 0.5rem 0;">
+                        ✅ <strong>Acertos:</strong> ${totalCorrect} | ❌ <strong>Erros:</strong> ${totalErrors}
+                    </p>
+                    <p style="font-weight: 500;">${systemFeedback}</p>
+                </div>
+            `;
+            
+            // Faz um scroll suave até o resultado para o utilizador ver o feedback
+            resultDisplay.scrollIntoView({ behavior: 'smooth' });
+        });
+    }
+});
+    </script>
+</body>
+</html>
